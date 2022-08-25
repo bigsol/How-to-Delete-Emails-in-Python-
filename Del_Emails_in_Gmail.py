@@ -50,19 +50,19 @@ status, message_id_list = imap.search(None, 'FROM "' + del_from_value + '"')
 
 #convert the string ids to list of email ids
 messages = message_id_list[0].split(b' ')
+if len(messages) > 1:
+        print("Deleting mails")
+        count =1
+        for mail in messages:
+            # mark the mail as deleted
+            imap.store(mail, "+FLAGS", "\\Deleted")
 
-print("Deleting mails")
-count =1
-for mail in messages:
-    # mark the mail as deleted
-    imap.store(mail, "+FLAGS", "\\Deleted")
+            print(count, "mail(s) deleted")
+            count +=1
+        print("All selected mails have been deleted")
 
-    print(count, "mail(s) deleted")
-    count +=1
-print("All selected mails have been deleted")
-
-# delete all the selected messages 
-imap.expunge()
+        # delete all the selected messages 
+        imap.expunge()
 # close the mailbox
 imap.close()
 
